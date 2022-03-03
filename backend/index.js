@@ -76,8 +76,7 @@ app.get("/",(req,res)=>{
 });
     
 const verify = (req,res,next) => {
-    console.log("token = = " +req.body.token)
-     const token=req.header["token"]
+     const token=req.body.token
      if(!token){
        console.log("no token")
        res.send("No token")
@@ -94,16 +93,16 @@ const verify = (req,res,next) => {
      }
 }
 
- app.get('/get', (req, res) => {
-    console.log("token = = =" +req.body.token)
-    
-    // db.query(
-    //     "SELECT * FROM Edaiva.records WHERE email=? && password=?",
-    //     [email,password],
-    //     (err,result)=>{
-            
-    //     } 
-    //   );
+ app.get('/get',verify, (req, res) => {
+    const firstname = req.body.data
+    db.query(
+        "SELECT firstname,lastname,address,phone,email FROM Edaiva.records WHERE firstname=?",
+        [firstname],
+        (err,res)=>{
+            if(err) res.send(err)
+            else res.send(res)
+        } 
+      );
 
 })
 
